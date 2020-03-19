@@ -13,24 +13,22 @@
    {
      printf("O arquivo foi aberto!");
    }
-   do
+  do
     {
     l = getc(arquivo);
-    printf("%c" , l);
-
+    printf("%c" , l);    
+    
     }while (l != EOF);
   fclose(arquivo);
-
+  
   system("pause");
   return(0);
 }
 
 
 int main (){
-    setlocale(LC_ALL,"portuguese");
-
     char arq;
     int c = lerArquivo(arq);
-
+    
     return 0;
 }
