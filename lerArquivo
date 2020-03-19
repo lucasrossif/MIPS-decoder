@@ -1,0 +1,15 @@
+ int lerArquivo (char nome)
+{
+  FILE *arquivo;
+  char l;
+
+  arquivo = fopen("nome.txt", "r");
+
+  if (arquivo == NULL)
+    {
+    printf("O arquivo não foi aberto!\n");
+    }
+    else
+   {
+     printf("O arquivo foi aberto!");
+   }
