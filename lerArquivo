@@ -1,20 +1,22 @@
 #include <stdio.h> 
 #include <stdlib.h>
 #include <locale.h>
+#include <string.h>
 
- char abrirArquivo (char name)
+ FILE* abrirArquivo (char filename[200])
 {
   FILE *arquivo;
-  char nome;
-
-  arquivo = fopen("name.txt", "r");
+  char name[200];
+  
+  arquivo = fopen(("%s", filename), "r");
 
   if (arquivo == NULL)
     {
-    printf("O arquivo não existe. Um novo arquivo será criado!\n");
-    printf ("Digite o nome do arquivo:\n");
-    scanf ("%c", &nome);
-    arquivo = fopen("nome.txt", "w");
+      printf("O arquivo não existe. Um novo arquivo será criado!\n\n");
+
+      printf ("Digite o nome do arquivo:\n");
+      gets(name);
+      arquivo = fopen(("%s", name), "w");
     }
     else
    {
@@ -24,25 +26,30 @@
   }
   
   
-  int lerArquivo(){
-  char name;
+void lerArquivo(){
+  char name[200];
   char l;
+  int num = 0;
+
   printf ("Digite o nome do arquivo a ser aberto + .txt. Caso nao exista, aperte enter.\n");
-  scanf ("%c", &name);
-  
-  do
-    {
-    l = getc(abrirArquivo(name));
-    printf("%c" , l);    
-    }while (l != EOF);
-  system("pause");
-  return(0);
+  gets(name);
+
+  while( (l=fgetc(abrirArquivo(name))) != EOF ) {
+     putchar(l);
+     if(l == '\n') {
+       num++;
+     }
+     
+     printf("%d", num++);
+   }
+    
+
 }
 
 
 int main (){
 
-    lerArquivo();
+  lerArquivo();
     
     return 0;
 }
