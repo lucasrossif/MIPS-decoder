@@ -27,7 +27,7 @@
   int lerArquivo(){
   char name;
   char l;
-  printf ("Digite o nome do arquivo a ser aberto + .txt. Caso nao existe, aperte enter.\n");
+  printf ("Digite o nome do arquivo a ser aberto + .txt. Caso nao exista, aperte enter.\n");
   scanf ("%c", &name);
   
   do
