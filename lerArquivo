@@ -1,9 +1,11 @@
+#include <stdio.h> 
+#include <stdlib.h>
+#include <locale.h>
+
  char abrirArquivo (char name)
 {
   FILE *arquivo;
-  char l;
   char nome;
-  char c;
 
   arquivo = fopen("name.txt", "r");
 
@@ -13,19 +15,18 @@
     printf ("Digite o nome do arquivo:\n");
     scanf ("%c", &nome);
     arquivo = fopen("nome.txt", "w");
-    c = nome.txt;
     }
     else
    {
      printf("O arquivo foi aberto!");
-     c = name.txt;
    }
-   return c;
+   return arquivo;
   }
   
   
   int lerArquivo(){
   char name;
+  char l;
   printf ("Digite o nome do arquivo a ser aberto + .txt. Caso nao existe, aperte enter.\n");
   scanf ("%c", &name);
   
@@ -33,10 +34,7 @@
     {
     l = getc(abrirArquivo(name));
     printf("%c" , l);    
-    
     }while (l != EOF);
-  fclose(arquivo);
-  
   system("pause");
   return(0);
 }
