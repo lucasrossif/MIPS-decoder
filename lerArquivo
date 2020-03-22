@@ -1,21 +1,37 @@
- int lerArquivo (char nome)
+ char abrirArquivo (char name)
 {
   FILE *arquivo;
   char l;
+  char nome;
+  char c;
 
-  arquivo = fopen("nome.txt", "r");
+  arquivo = fopen("name.txt", "r");
 
   if (arquivo == NULL)
     {
-    printf("O arquivo não foi aberto!\n");
+    printf("O arquivo não existe. Um novo arquivo será criado!\n");
+    printf ("Digite o nome do arquivo:\n");
+    scanf ("%c", &nome);
+    arquivo = fopen("nome.txt", "w");
+    c = nome.txt;
     }
     else
    {
      printf("O arquivo foi aberto!");
+     c = name.txt;
    }
+   return c;
+  }
+  
+  
+  int lerArquivo(){
+  char name;
+  printf ("Digite o nome do arquivo a ser aberto + .txt. Caso nao existe, aperte enter.\n");
+  scanf ("%c", &name);
+  
   do
     {
-    l = getc(arquivo);
+    l = getc(abrirArquivo(name));
     printf("%c" , l);    
     
     }while (l != EOF);
@@ -27,8 +43,8 @@
 
 
 int main (){
-    char arq;
-    int c = lerArquivo(arq);
+
+    lerArquivo();
     
     return 0;
 }
