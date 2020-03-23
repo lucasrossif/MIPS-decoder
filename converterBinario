@@ -1,0 +1,45 @@
+#include <stdio.h> 
+#include <stdlib.h>
+#include <locale.h>
+#include <string.h>
+
+
+int main (){
+
+  FILE* converteBinario(FILE *arq, char outputFilename[200]){
+    char texto[500];
+    FILE* binary;
+
+    gets(outputFilename);
+    binary = fopen(("%s", outputFilename), "ab");
+
+    while(!feof(arq)){ //ENQUANTO NAO CHEGA NO FINAL DO ARQUIVO
+        fgets(texto, 500 , arq) ;
+        printf("%s", texto);
+
+  for(int i = 0; texto[i]!='\0'; i++)
+  {
+    int arqTexto = texto[i];
+
+    for(int j = 500; j + 1 > 0; j--) 
+    {
+        if(arqTexto >= (1<<j)) 
+        {
+          arqTexto -= (1<<j);
+          fprintf("1"); 
+        } 
+
+        else 
+        {
+          fprintf("0");
+        }
+
+        fwrite(&texto, sizeof(texto), 1, binary);
+    }
+  }
+}
+
+    return binary;
+}
+    return 0;
+}
