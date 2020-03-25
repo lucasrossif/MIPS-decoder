@@ -49,7 +49,7 @@ FILE* converteBinario(FILE *arq, char outputFilename[200]){
     FILE* binary;
 
     gets(outputFilename);
-    binary = fopen(("%s", outputFilename), "ab");
+    binary = fopen(("%s", outputFilename), "a");
 
     while(!feof(arq)){ //ENQUANTO NAO CHEGA NO FINAL DO ARQUIVO
         fgets(texto, 500 , arq) ;
@@ -64,12 +64,12 @@ FILE* converteBinario(FILE *arq, char outputFilename[200]){
         if(arqTexto >= (1<<j)) 
         {
           arqTexto -= (1<<j);
-          fprintf("1"); 
+          fprintf(binary, "1"); 
         } 
 
         else 
         {
-          fprintf("0");
+          fprintf(binary, "0");
         }
 
         fwrite(&texto, sizeof(texto), 1, binary);
