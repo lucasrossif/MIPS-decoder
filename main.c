@@ -1,87 +1,99 @@
-#include <stdio.h> 
+#include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
 #include <string.h>
+#define MAX 256
 
- FILE* abrirArquivo (char filename[200])
+void readFile()
 {
-  FILE *arquivo;
-  char name[200];
-  
-  arquivo = fopen(("%s", filename), "r");
 
-  if (arquivo == NULL)
+    int num, i, j, c, f;
+    FILE *fp1, *fp2;
+    char ch[20000], src[MAX], tgt[MAX];
+
+    /* get the input file name from the user */
+    printf("Enter your input file name:");
+    scanf("%s", src);
+
+    /* get the output filename from the user */
+    printf("Enter your output file name:");
+    scanf("%s", tgt);
+
+    /* open the source file in read mode */
+    fp1 = fopen(src, "r");
+
+    /* error handling */
+    if (!fp1)
     {
-      printf("O arquivo não existe. Um novo arquivo será criado!\n\n");
-
-      printf ("Digite o nome do arquivo:\n");
-      gets(name);
-      arquivo = fopen(("%s", name), "w");
+        printf("Unable to open the input file!!\n");
+        return ;
     }
-    else
-   {
-     printf("O arquivo foi aberto!");
-   }
-   return arquivo;
-}
-  
-  
-void lerArquivo(){
-  char name[200];
-  char l;
-  int num = 0;
 
-  printf ("Digite o nome do arquivo a ser aberto + .txt. Caso nao exista, aperte enter.\n");
-  gets(name);
+    /* open the target file in binary write mode */
+    fp2 = fopen(tgt, "ab");
 
-  while( (l=fgetc(abrirArquivo(name))) != EOF ) {
-     putchar(l);
-     if(l == '\n') {
-       num++;
-     }
-     
-     printf("%d", num++);
-   }
-}
-
-FILE* converteBinario(FILE *arq, char outputFilename[200]){
-    char texto[500];
-    FILE* binary;
-
-    gets(outputFilename);
-    binary = fopen(("%s", outputFilename), "a");
-
-    while(!feof(arq)){ //ENQUANTO NAO CHEGA NO FINAL DO ARQUIVO
-        fgets(texto, 500 , arq) ;
-        printf("%s", texto);
-
-  for(int i = 0; texto[i]!='\0'; i++)
-  {
-    int arqTexto = texto[i];
-
-    for(int j = 500; j + 1 > 0; j--) 
+    if(strlen(src) == 0)
     {
-        if(arqTexto >= (1<<j)) 
-        {
-          arqTexto -= (1<<j);
-          fprintf(binary, "1"); 
-        } 
+        printf("type the MIPS instruction: \n");
+        gets(ch);
+    }
 
-        else 
+    /* error handling */
+    if (!fp2)
+    {
+        printf("Unable to open the output file!!\n");
+        return ;
+    }
+
+
+
+    /*
+      * read data from input file and write
+      * the binary form of it in output file
+      */
+
+    while (!feof(fp1))
+    {
+        /* reading one byte of data */
+        fread(&ch, sizeof(char), 1, fp1);
+        /* converting the character to ascii integer value */
+
+        for( i = 0; ch[i]!='\0'; i++)
         {
-          fprintf(binary, "0");
+
+            c = ch[i];
+
+            for( j = 20000; j + 1 > 0; j-- )
+            {
+
+                if( c >= ( 1 << j ) )
+                {
+
+                    c = c - ( 1 << j );
+                    f = 1;
+                    fwrite(&f, sizeof(int), 1, fp2);
+                }
+                else
+                {
+                    f = 0;
+                    fwrite(&f, sizeof(int), 1, fp2);
+                }
+
+            }
+
+            // num = ch;
+            // /* writing 4 byte of data to the output file */
+            // fwrite(&num, sizeof(int), 1, fp2);
         }
 
-        fwrite(&texto, sizeof(texto), 1, binary);
-    } // fim do for do j
-  } // fim for do i
-} //fim while
-    return binary;
-} // fim da função
+        /* close all opened files */
+        fclose(fp1);
+        fclose(fp2);
 
-int main (){
+    }
+}
 
-  lerArquivo();
-    
-    return 0;
+int main(void)
+{
+    readFile();
 }
