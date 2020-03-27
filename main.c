@@ -18,6 +18,7 @@ int main(void) {
   printf("Digite o nome do arquivo de entrada: ");
   gets(inputname);
 
+  //Se o arquivo for nulo, digitar o comando MIPS.
   if( inputname[0] == '\0' ) {
 
     printf("Digite os comandos do MIPS: ");
@@ -25,7 +26,8 @@ int main(void) {
 
     return 0;
   } else {
-
+    
+    //Nome do arquivo saída.
     printf("Digite o nome do arquivo de saída: ");
     scanf("%s", outputname);
 
@@ -36,7 +38,7 @@ int main(void) {
     outputfile = fopen(outputname, "w");
 
     if( inputfile == NULL ) {
-
+     
       printf("Erro ao abrir arquivo!");
 
     } else {
