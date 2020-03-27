@@ -20,6 +20,7 @@ int main(void) {
 
   if( inputname[0] == '\0' ) {
 
+    //Se inputname for vazio, digitar comandos MIPS.
     printf("Digite os comandos do MIPS: ");
     gets(commands);
 
