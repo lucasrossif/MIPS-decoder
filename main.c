@@ -1,257 +1,464 @@
-#include <stdio.h> 
+#include <stdio.h>
 #include <stdlib.h>
-#include <locale.h>
 #include <string.h>
-#define MAX 256
-
-void readFile() {
-
-  int num, i, j, c, f;
-  char binario; 
-
-  FILE *fp1, *fp2;
-  char ch[20000], src[MAX], tgt[MAX];
-
-  /* get the input file name from the user */
-  printf("Enter your input file name:");
-  scanf("%s", src);
-
-  /* get the output filename from the user */
-  printf("Enter your output file name:");
-  scanf("%s", tgt);
-
-  /* open the source file in read mode */
-  fp1 = fopen(src, "r");
-
-  /* error handling */
-  if (!fp1) {
-          printf("Unable to open the input file!!\n");
-          return ;
-  }
-
-  /* open the target file in binary write mode */
-  fp2 = fopen(tgt, "ab");
-
-  /* error handling */
-  if (!fp2) {
-      printf("Unable to open the output file!!\n");
-      return ;
-  }
-
-  /*
-    * read data from input file and write
-    * the binary form of it in output file
-    */
-  while (!feof(fp1)) {
-      /* reading one byte of data */
-      fread(&ch, sizeof(char), 1, fp1);
-      /* converting the character to ascii integer value */
-
-      for( i = 0; ch[i]!='\0'; i++) {
-
-      c = ch[i];
-
-      for( j = strlen(ch); j + 1 > 0; j-- ) {
-          
-      switch(ch[i]) {
-        case "sll" :
-          binario = '000 0000';	
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "srl" :
-        case "j" :
-          binario = '000 0010';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "jal" :
-        case "sra" :
-          binario = '000 0011';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "beq" :
-        case "sllv" :
-          binario = '000 0100';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "bne" :
-          binario =  '000 0101';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "blez" :
-        case "srlv" :
-          binario =  '000 0100';	
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "bgtz" :
-        case "srav" :
-          binario =  '000 0111';	
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "addi" :
-        case "jr" :
-          binario =  '00 1000';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "addiu" :
-        case "jalr" :
-          binario =  '000 1001';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "slti" :
-        case "movz" :
-          binario =  '000 1010';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "sltiu":
-        case "movn" :
-          binario =  '000 1011';
-        fwrite(&binario, sizeof(int), 1, fp2);
-        case "andi":
-        case "syscall" :
-          binario =  '000 1100';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "ori":
-        case "break" :
-          binario =  '000 1101';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "xori" :
-          binario =  '000 1110';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "lui" :
-        case "sync" :
-          binario =  '000 1111';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "mfhi" :
-          binario =  '001 0000';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "mthi" :
-          binario =  '001 0001';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "mflo" :
-          binario =  '001 0010';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "mtlo" :
-          binario = '001 0011';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "mult" :
-          binario = '001 1000';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "multu" :
-          binario = '001 1001';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "div" :
-          binario = '001 1010';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "divu" :
-          binario = '001 1011';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "add" :
-        case "lb" :
-          binario = '010 0000';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "addu":
-        case "lh":
-          binario = '010 0001';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "lwl":
-        case "sub":
-          binario = '010 0010';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "lw":
-        case "subu":
-          binario = '010 0011';	
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "lbu":
-        case "and":
-          binario = '010 0100';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "lhu":
-        case "or":
-          binario = '010 0101';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "lwr":
-        case "xor":
-          binario = '010 0110';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "nor":
-          binario = '010 0111';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "sb":
-          binario = '010 1000';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "sh":
-          binario = '010 1001';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "slt":
-        case "swl":
-          binario = '010 1010';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "sw":
-        case "sltu":
-          binario = '010 1011';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "swr":
-          binario = '010 1110';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "cache":
-          binario = '010 1110';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "ll":
-        case "tge":
-          binario = '011 0000';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "lwc1":
-        case "tgeu":
-          binario = '011 0001';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "lwc2":
-        case "tlt":
-          binario = '011 0010';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "pref":
-        case "tltu":
-          binario = '011 0011';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "teq":
-          binario = '011 0100';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "ldc1":
-          binario = '011 0101';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "ldc2":
-        case "tne":
-          binario = '011 0110';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "sc":
-          binario = '011 1000';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "swc1":
-          binario = '011 1001';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "swc2":
-          binario = '011 1010';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "sdc1":
-          binario = '011 1101';
-          fwrite(&binario, sizeof(int), 1, fp2);
-        case "sdc2":
-          binario = '011 1110';
-          fwrite(&binario, sizeof(int), 1, fp2);
-			default:
-				binario = "Parametro nao existe";
-
-          if( c >= ( 1 << j ) ) {
-            c = c - ( 1 << j );
-            fwrite(&binario, sizeof(int), 1, fp2);
-          } else {
-            f = 0;
-            fwrite(&f, sizeof(int), 1, fp2);
-          }
-
-      }
-
-      num = ch;
-      // /* writing 4 byte of data to the output file */
-      //fwrite(&num, sizeof(int), 1, fp2);
-  }
-
-  /* close all opened files */
-  fclose(fp1);
-  fclose(fp2);
-
-}
-}
+#include <math.h>
+#define MAX 294 
 
 int main(void) {
-  readFile();
+  
+  FILE *inputfile,
+       *outputfile;
+       
+  char inputname[MAX],
+       outputname[MAX],
+       commands[MAX],
+       words[MAX],
+       test[MAX];
+
+  printf("Digite o nome do arquivo de entrada: ");
+  gets(inputname);
+
+  if( inputname[0] == '\0' ) {
+    
+    printf("Digite os comandos do MIPS: ");
+    gets(commands);
+
+    return 0;
+  } else {
+
+    printf("Digite o nome do arquivo de saída: ");
+    scanf("%s", outputname);
+
+    printf("Digite a palavra: ");
+    scanf("%s", test);
+
+    inputfile = fopen(inputname, "r");
+    outputfile = fopen(outputname, "w");
+
+    if( inputfile == NULL ) {
+
+      printf("Erro ao abrir arquivo!");
+
+    } else {
+
+        while( fscanf(inputfile, "%s", words) != EOF ){
+
+            //ssl
+            if( strcmp( words, test ) == 0 ){
+              fputs("000000", outputfile);
+            }
+                        //srl
+            if( strcmp( words, test ) == 0 ){
+              fputs("000010", outputfile);
+            }
+            //j
+            if( strcmp( words, test ) == 0 ){
+              fputs("000010", outputfile);
+            }
+            //jal
+            if( strcmp( words, test ) == 0 ){
+              fputs("000011", outputfile);
+            }
+            //sra
+            if( strcmp( words, test ) == 0 ){
+              fputs("000011", outputfile);
+            }
+            //beq
+            if( strcmp( words, test ) == 0 ){
+              fputs("000100", outputfile);
+            }
+            //sllv
+            if( strcmp( words, test ) == 0 ){
+              fputs("000100", outputfile);
+            }
+            //bne
+            if( strcmp( words, test ) == 0 ){
+              fputs("000101", outputfile);
+            }
+            //blez
+            if( strcmp( words, test ) == 0 ){
+              fputs("000110", outputfile);
+            }
+            //srlv
+            if( strcmp( words, test ) == 0 ){
+              fputs("000110", outputfile);
+            }
+            //bgtz
+            if( strcmp( words, test ) == 0 ){
+              fputs("000111", outputfile);
+            }
+            //srav
+            if( strcmp( words, test ) == 0 ){
+              fputs("000111", outputfile);
+            }
+            //addi
+            if( strcmp( words, test ) == 0 ){
+              fputs("001000", outputfile);
+            }
+            //jr
+            if( strcmp( words, test ) == 0 ){
+              fputs("001000", outputfile);
+            }
+            //addiu
+            if( strcmp( words, test ) == 0 ){
+              fputs("001001", outputfile);
+            }
+            //jalr
+            if( strcmp( words, test ) == 0 ){
+              fputs("001001", outputfile);
+            }
+            //slti
+            if( strcmp( words, test ) == 0 ){
+              fputs("001010", outputfile);
+            }
+            //slti
+            if( strcmp( words, test ) == 0 ){
+              fputs("001010", outputfile);
+            }
+            //sltiu
+            if( strcmp( words, test ) == 0 ){
+              fputs("001011", outputfile);
+            }
+            //movn
+            if( strcmp( words, test ) == 0 ){
+              fputs("001011", outputfile);
+            }
+            //andi
+            if( strcmp( words, test ) == 0 ){
+              fputs("001100", outputfile);
+            }
+            //syscall
+            if( strcmp( words, test ) == 0 ){
+              fputs("001100", outputfile);
+            }
+            //ori
+            if( strcmp( words, test ) == 0 ){
+              fputs("001101", outputfile);
+            }
+            //break
+            if( strcmp( words, test ) == 0 ){
+              fputs("001101", outputfile);
+            }
+            //xori
+            if( strcmp( words, test ) == 0 ){
+              fputs("001110", outputfile);
+            }
+            //lui
+            if( strcmp( words, test ) == 0 ){
+              fputs("001111", outputfile);
+            }
+            //sync
+            if( strcmp( words, test ) == 0 ){
+              fputs("001111", outputfile);
+            }
+            //mfhi
+            if( strcmp( words, test ) == 0 ){
+              fputs("010000", outputfile);
+            }
+            //mthi
+            if( strcmp( words, test ) == 0 ){
+              fputs("010001", outputfile);
+            }
+            //addu
+            if( strcmp( words, test ) == 0 ){
+              fputs("010010", outputfile);
+            }
+            //mtlo
+            if( strcmp( words, test ) == 0 ){
+              fputs("010011", outputfile);
+            }
+            //mult
+            if( strcmp( words, test ) == 0 ){
+              fputs("011000", outputfile);
+            }
+            //multu
+            if( strcmp( words, test ) == 0 ){
+              fputs("011001", outputfile);
+            }
+            //div
+            if( strcmp( words, test ) == 0 ){
+              fputs("011010", outputfile);
+            }
+            //divu
+            if( strcmp( words, test ) == 0 ){
+              fputs("011011", outputfile);
+            }
+            //add
+            if( strcmp( words, test ) == 0 ){
+              fputs("100000", outputfile);
+            }
+            //add
+            if( strcmp( words, test ) == 0 ){
+              fputs("100000", outputfile);
+            }
+            //addu
+            if( strcmp( words, test ) == 0 ){
+              fputs("100001", outputfile);
+            }
+            //lh
+            if( strcmp( words, test ) == 0 ){
+              fputs("100001", outputfile);
+            }
+            //lw
+            if( strcmp( words, test ) == 0 ){
+              fputs("100011", outputfile);
+            }
+            //subu
+            if( strcmp( words, test ) == 0 ){
+              fputs("100011", outputfile);
+            }
+            //lbu
+            if( strcmp( words, test ) == 0 ){
+              fputs("100100", outputfile);
+            }
+            //and
+            if( strcmp( words, test ) == 0 ){
+              fputs("100100", outputfile);
+            }
+            //lhu
+            if( strcmp( words, test ) == 0 ){
+              fputs("100101", outputfile);
+            }
+            //or
+            if( strcmp( words, test ) == 0 ){
+              fputs("100101", outputfile);
+            }
+            //lwr
+            if( strcmp( words, test ) == 0 ){
+              fputs("100110", outputfile);
+            }
+            //xor
+            if( strcmp( words, test ) == 0 ){
+              fputs("100110", outputfile);
+            }
+            //nor
+            if( strcmp( words, test ) == 0 ){
+              fputs("100111", outputfile);
+            }
+            //sb
+            if( strcmp( words, test ) == 0 ){
+              fputs("101000", outputfile);
+            }
+            //sh
+            if( strcmp( words, test ) == 0 ){
+              fputs("101001", outputfile);
+            }
+            //slt
+            if( strcmp( words, test ) == 0 ){
+              fputs("101010", outputfile);
+            }
+            //swl
+            if( strcmp( words, test ) == 0 ){
+              fputs("101010", outputfile);
+            }
+            //sw
+            if( strcmp( words, test ) == 0 ){
+              fputs("101011", outputfile);
+            }
+            //sltu
+            if( strcmp( words, test ) == 0 ){
+              fputs("101011", outputfile);
+            }
+            //swr
+            if( strcmp( words, test ) == 0 ){
+              fputs("101110", outputfile);
+            }
+            //cache
+            if( strcmp( words, test ) == 0 ){
+              fputs("101110", outputfile);
+            }
+            //ll
+            if( strcmp( words, test ) == 0 ){
+              fputs("110000", outputfile);
+            }
+            //tge
+            if( strcmp( words, test ) == 0 ){
+              fputs("110000", outputfile);
+            }
+            //tgeu
+            if( strcmp( words, test ) == 0 ){
+              fputs("110001", outputfile);
+            }
+            //lwc2
+            if( strcmp( words, test ) == 0 ){
+              fputs("110010", outputfile);
+            }
+            //tlt
+            if( strcmp( words, test ) == 0 ){
+              fputs("110010", outputfile);
+            }
+            //pref
+            if( strcmp( words, test ) == 0 ){
+              fputs("110011", outputfile);
+            }
+            //tltu
+            if( strcmp( words, test ) == 0 ){
+              fputs("110011", outputfile);
+            }
+            //teq
+            if( strcmp( words, test ) == 0 ){
+              fputs("110100", outputfile);
+            }
+            //ldc1
+            if( strcmp( words, test ) == 0 ){
+              fputs("110101", outputfile);
+            }
+            //tne
+            if( strcmp( words, test ) == 0 ){
+              fputs("110110", outputfile);
+            }
+            //sc
+            if( strcmp( words, test ) == 0 ){
+              fputs("111000", outputfile);
+            }
+            //swc1
+            if( strcmp( words, test ) == 0 ){
+              fputs("111001", outputfile);
+            }
+            //swc2
+            if( strcmp( words, test ) == 0 ){
+              fputs("111010", outputfile);
+            }
+            //sdc1
+            if( strcmp( words, test ) == 0 ){
+              fputs("111101", outputfile);
+            }
+            //sdc2
+            if( strcmp( words, test ) == 0 ){
+              fputs("111110", outputfile);
+            }
+            //$zero
+            if( strcmp( words, test ) == 0 ){
+              fputs("000000", outputfile);
+            }
+            //$vo
+            if( strcmp( words, test ) == 0 ){
+              fputs("000010", outputfile);
+            }
+            //$at
+            if( strcmp( words, test ) == 0 ){
+              fputs("000001", outputfile);
+            }
+            //$v1
+            if( strcmp( words, test ) == 0 ){
+              fputs("000011", outputfile);
+            }
+            //$a0
+            if( strcmp( words, test ) == 0 ){
+              fputs("000100", outputfile);
+            }
+            //$a2
+            if( strcmp( words, test ) == 0 ){
+              fputs("000110", outputfile);
+            }
+            //$a3
+            if( strcmp( words, test ) == 0 ){
+              fputs("000111", outputfile);
+            }
+            //$t0
+            if( strcmp( words, test ) == 0 ){
+              fputs("001000", outputfile);
+            }
+            //$t1
+            if( strcmp( words, test ) == 0 ){
+              fputs("001001", outputfile);
+            }
+            //$t2
+            if( strcmp( words, test ) == 0 ){
+              fputs("001010", outputfile);
+            }
+            //$t3
+            if( strcmp( words, test ) == 0 ){
+              fputs("001011", outputfile);
+            }
+            //$t4
+            if( strcmp( words, test ) == 0 ){
+              fputs("001100", outputfile);
+            }
+            //$t5
+            if( strcmp( words, test ) == 0 ){
+              fputs("001101", outputfile);
+            }
+            //$t6
+            if( strcmp( words, test ) == 0 ){
+              fputs("001110", outputfile);
+            }
+            //$t7
+            if( strcmp( words, test ) == 0 ){
+              fputs("001111", outputfile);
+            }
+            //$s0
+            if( strcmp( words, test ) == 0 ){
+              fputs("010000", outputfile);
+            }
+            //$s1
+            if( strcmp( words, test ) == 0 ){
+              fputs("010001", outputfile);
+            }
+            //$s2
+            if( strcmp( words, test ) == 0 ){
+              fputs("010010", outputfile);
+            }
+            //$s3
+            if( strcmp( words, test ) == 0 ){
+              fputs("010011", outputfile);
+            }
+            //$s4
+            if( strcmp( words, test ) == 0 ){
+              fputs("010100", outputfile);
+            }
+            //$s5
+            if( strcmp( words, test ) == 0 ){
+              fputs("010101", outputfile);
+            }
+            //$s6
+            if( strcmp( words, test ) == 0 ){
+              fputs("010110", outputfile);
+            }
+            //$s7
+            if( strcmp( words, test ) == 0 ){
+              fputs("010111", outputfile);
+            }
+            //$t8
+            if( strcmp( words, test ) == 0 ){
+              fputs("011000", outputfile);
+            }
+            //$t9
+            if( strcmp( words, test ) == 0 ){
+              fputs("011001", outputfile);
+            }
+            //$k0
+            if( strcmp( words, test ) == 0 ){
+              fputs("011010", outputfile);
+            }
+            //$k1
+            if( strcmp( words, test ) == 0 ){
+              fputs("011011", outputfile);
+            }
+            //$s0
+            if( strcmp( words, test ) == 0 ){
+              fputs("011100", outputfile);
+            }
+            //$s0
+            if( strcmp( words, test ) == 0 ){
+              fputs("011101", outputfile);
+            }
+            //$fp 
+            if( strcmp( words, test ) == 0 ){
+              fputs("011110", outputfile);
+            }
+            //$ra
+            if( strcmp( words, test ) == 0 ){
+              fputs("011111", outputfile);
+            }
+
+            
+            printf("%s\n", &words);
+        }
+    
+
+    }
+  }
+
+  return 0;
 }
