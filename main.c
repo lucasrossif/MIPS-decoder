@@ -2,13 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#define MAX 294 
+#define MAX 294
+
 
 int main(void) {
-  
   FILE *inputfile,
        *outputfile;
-       
+
   char inputname[MAX],
        outputname[MAX],
        commands[MAX],
@@ -19,7 +19,7 @@ int main(void) {
   gets(inputname);
 
   if( inputname[0] == '\0' ) {
-    
+
     printf("Digite os comandos do MIPS: ");
     gets(commands);
 
@@ -29,8 +29,8 @@ int main(void) {
     printf("Digite o nome do arquivo de saída: ");
     scanf("%s", outputname);
 
-    printf("Digite a palavra: ");
-    scanf("%s", test);
+    // printf("Digite a palavra: ");
+    // scanf("%s", test);
 
     inputfile = fopen(inputname, "r");
     outputfile = fopen(outputname, "w");
@@ -41,7 +41,13 @@ int main(void) {
 
     } else {
 
-        while( fscanf(inputfile, "%s", words) != EOF ){
+        while( fscanf(inputfile, "%s", words) == 1 ){
+
+            strcpy(test, words);
+
+            printf("%s\t", words);
+            printf(" | ");
+
 
             //ssl
             if( strcmp( words, test ) == 0 ){
@@ -443,7 +449,7 @@ int main(void) {
             if( strcmp( words, test ) == 0 ){
               fputs("011101", outputfile);
             }
-            //$fp 
+            //$fp
             if( strcmp( words, test ) == 0 ){
               fputs("011110", outputfile);
             }
@@ -452,13 +458,12 @@ int main(void) {
               fputs("011111", outputfile);
             }
 
-            
-            printf("%s\n", &words);
+
+            printf("%s\t", &test);
+            printf(" | ");
         }
-    
+
 
     }
-  }
-
-  return 0;
+  }  return 0;
 }
