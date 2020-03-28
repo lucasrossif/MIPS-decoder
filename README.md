@@ -14,4 +14,4 @@ $ brew install cmake
 1. $ mkdir build && cd build
 2. $ cmake ../
 3. $make
-4. ./hello
+4. ./mips32-decode
